@@ -5,7 +5,8 @@
 
 {
   imports =
-    [ (modulesPath + "/installer/scan/not-detected.nix")
+    [
+      (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
   boot.loader.grub.enable = true;
@@ -50,18 +51,21 @@
   boot.supportedFilesystems = [ "btrfs" ];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/b2b51387-f562-4586-8282-7ae0b6c16834";
+    {
+      device = "/dev/disk/by-uuid/b2b51387-f562-4586-8282-7ae0b6c16834";
       fsType = "btrfs";
       options = [ "subvol=@root" "ssd" "discard" "noatime" ];
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/8dbac155-31f9-4899-86f6-f25646a0e02d";
+    {
+      device = "/dev/disk/by-uuid/8dbac155-31f9-4899-86f6-f25646a0e02d";
       fsType = "ext4";
     };
 
   fileSystems."/boot/esp" =
-    { device = "/dev/disk/by-uuid/C0BA-E285";
+    {
+      device = "/dev/disk/by-uuid/C0BA-E285";
       fsType = "vfat";
     };
 
