@@ -10,7 +10,8 @@
       ./hardware-configuration.nix
     ];
 
-  networking.hostName = "rpi"; # Define your hostname.
+  networking.hostName = "rpi";
+  networking.domain = "sc.gjuvekar.com";
   networking.networkmanager.enable = true;
 
   time.timeZone = "America/Los_Angeles";
