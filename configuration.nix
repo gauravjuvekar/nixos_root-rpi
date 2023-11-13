@@ -19,6 +19,11 @@
   i18n.defaultLocale = "en_US.UTF-8";
 
   services.openssh.enable = true;
+  services.openssh.settings =
+    {
+      PasswordAuthentication = false;
+      KbdInteractiveAuthentication = false;
+    };
 
   users.mutableUsers = false;
   users.users.root.openssh.authorizedKeys.keys =
