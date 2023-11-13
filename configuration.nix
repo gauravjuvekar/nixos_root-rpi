@@ -13,7 +13,15 @@
 
   networking.hostName = "rpi";
   networking.domain = "sc.gjuvekar.com";
-  networking.networkmanager.enable = true;
+  networking.networkmanager.enable = false;
+  networking.useNetworkd = true;
+  systemd.network.enable = true;
+
+  systemd.network.networks."wlan0" =
+    {
+      enable = false;
+      name = "wlan0";
+    };
 
   time.timeZone = "America/Los_Angeles";
 
