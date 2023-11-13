@@ -8,6 +8,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      <agenix/modules/age.nix>
     ];
 
   networking.hostName = "rpi";
@@ -39,6 +40,25 @@
           source = ./files/lvm.conf;
           mode = "0600";
         };
+    };
+
+  age.secrets."hostapd_wpa_password".file = ./secrets/hostapd_wpa_password.age;
+  services.hostapd.enable = true;
+  services.hostapd.radios."wlan0" =
+    {
+      band = "2g";
+      countryCode = "US";
+      channel = 7;
+      networks."wlan0" =
+        {
+          ssid = "gaurav-iot";
+          authentication =
+            {
+              mode = "wpa2-sha256";
+              wpaPasswordFile = config.age.secrets."hostapd_wpa_password".path;
+            };
+        };
+      wifi4.capabilities = [ "SHORT-GI-20" ];
     };
 
   networking.firewall.enable = false;
