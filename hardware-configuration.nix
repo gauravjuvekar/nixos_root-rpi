@@ -54,6 +54,13 @@
       options = [ "subvol=@root" "ssd" "discard" "noatime" ];
     };
 
+  fileSystems."/home" =
+    {
+      device = "/dev/disk/by-uuid/9d58d865-c18b-46a0-8a18-63f456f32e39";
+      fsType = "btrfs";
+      options = [ "subvol=@home" "ssd" "discard" "noatime" ];
+    };
+
   fileSystems."/boot" =
     {
       device = "/dev/disk/by-uuid/8dbac155-31f9-4899-86f6-f25646a0e02d";
