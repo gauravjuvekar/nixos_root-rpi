@@ -95,6 +95,7 @@
               mode = "wpa2-sha256";
               wpaPasswordFile = config.age.secrets."hostapd_wpa_password".path;
             };
+          settings.ieee80211w = "2"; # Regression from https://github.com/NixOS/nixpkgs/pull/263138
         };
       wifi4.capabilities = [ "SHORT-GI-20" ];
     };
