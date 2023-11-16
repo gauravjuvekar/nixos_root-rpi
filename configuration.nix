@@ -51,6 +51,35 @@
         };
     };
 
+  virtualisation.oci-containers.containers =
+    {
+      "ingress" =
+        {
+          image = "arm64v8/haproxy";
+          volumes =
+            [
+              "/home/ingress:/usr/local/etc/haproxy:ro"
+            ];
+          ports =
+            [
+              "80:80"
+              "443:443"
+              "8000:8000"
+            ];
+          dependsOn = [ "httpd_frontpage" ];
+          user = "root:root";
+        };
+      "httpd_frontpage" =
+        {
+          image = "arm64v8/httpd";
+          volumes =
+            [
+              "/home/httpd_frontpage/public-html:/usr/local/apache2/htdocs:ro"
+            ];
+          hostname = "frontpage";
+        };
+    };
+
   age.secrets."hostapd_wpa_password".file = ./secrets/hostapd_wpa_password.age;
   services.hostapd.enable = true;
   services.hostapd.radios."wlan0" =
