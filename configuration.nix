@@ -15,8 +15,14 @@
 
   systemd.network.networks."wlan0" =
     {
-      enable = false;
+      enable = true;
       name = "wlan0";
+      DHCP = "no";
+      address =
+        [
+          "10.10.16.1/16"
+          "fde8:3a34:ee2f:f101::1/64"
+        ];
     };
 
   time.timeZone = "America/Los_Angeles";
@@ -62,6 +68,32 @@
             };
         };
       wifi4.capabilities = [ "SHORT-GI-20" ];
+    };
+
+  services.dnsmasq.enable = true;
+  services.dnsmasq.settings =
+    {
+      interface = "wlan0";
+      bind-interfaces = true;
+      resolv-file = false;
+      listen-address = "10.10.16.1";
+
+      # DNS
+      no-resolv = true;
+      server = [ "1.1.1.1" "2606:4700:4700::1111" "2606:4700:4700::1001" ];
+      domain = "iot.sc.gjuvekar.com";
+
+      # DHCP
+      dhcp-option =
+        [
+          "3,0.0.0.0" # Default gateway
+          "6,0.0.0.0" # DNS servers to announce
+        ];
+      dhcp-range =
+        [
+          "10.10.17.0,10.10.30.255,4h"
+          "::f101:0001,::f101:fffe,constructor:wlan0,slaac,12h" # SLAAC + DHCPv6 assigned address
+        ];
     };
 
   networking.firewall.enable = false;
