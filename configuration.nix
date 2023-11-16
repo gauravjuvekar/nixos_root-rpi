@@ -66,17 +66,17 @@
               "443:443"
               "8000:8000"
             ];
-          dependsOn = [ "httpd_frontpage" ];
+          dependsOn = [ "frontpage" ];
           user = "root:root";
         };
-      "httpd_frontpage" =
+      "frontpage" =
         {
           image = "arm64v8/httpd";
           volumes =
             [
               "/home/httpd_frontpage/public-html:/usr/local/apache2/htdocs:ro"
             ];
-          hostname = "frontpage";
+          # hostname = "frontpage";
         };
     };
 
