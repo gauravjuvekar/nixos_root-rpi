@@ -145,6 +145,7 @@
   environment.systemPackages = with pkgs;
     [
       gitMinimal
+      nix-output-monitor
       screen
     ];
 
