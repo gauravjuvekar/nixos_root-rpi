@@ -76,7 +76,7 @@
             [
               "/home/httpd_frontpage/public-html:/usr/local/apache2/htdocs:ro"
             ];
-          # hostname = "frontpage";
+          hostname = "frontpage";
         };
 
   networking.firewall =
