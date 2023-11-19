@@ -78,6 +78,22 @@
             ];
           # hostname = "frontpage";
         };
+
+  networking.firewall =
+    {
+      enable = true;
+      allowedTCPPorts =
+        [
+          22
+          80
+          443
+          8000
+        ];
+      trustedInterfaces =
+        [
+          "wlan0"
+        ];
+
     };
 
   age.secrets."hostapd_wpa_password".file = ./secrets/hostapd_wpa_password.age;
@@ -125,8 +141,6 @@
           "::f101:0001,::f101:fffe,constructor:wlan0,slaac,12h" # SLAAC + DHCPv6 assigned address
         ];
     };
-
-  networking.firewall.enable = false;
 
   environment.systemPackages = with pkgs;
     [
