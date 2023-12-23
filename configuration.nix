@@ -78,6 +78,35 @@
             ];
           hostname = "frontpage";
         };
+      "homeassistant" =
+        {
+          image = "ghcr.io/home-assistant/home-assistant:stable" ;
+          extraOptions =
+            [
+              "--network=host"
+              "--privileged"
+            ];
+          volumes =
+            [
+              "/home/homeassistant:/config"
+            ];
+          dependsOn = [ "matterserver" ];
+        };
+      "matterserver" =
+        {
+          image = "ghcr.io/home-assistant-libs/python-matter-server:stable";
+          extraOptions =
+            [
+              "--network=host"
+              "--security-opt" "apparmor=unconfined"
+            ];
+          volumes =
+            [
+              "/home/matter:/data"
+              "/run/dbus:/run/dbus:ro"
+            ];
+        };
+    };
 
   networking.firewall =
     {
