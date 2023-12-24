@@ -108,6 +108,12 @@
         };
     };
 
+  boot.kernel.sysctl =
+    {
+      "net.ipv4.conf.all.forwarding" = true;
+      "net.ipv6.conf.all.forwarding" = true;
+    };
+  networking.nftables.enable = true;
   networking.firewall =
     {
       enable = true;
@@ -173,6 +179,7 @@
 
   environment.systemPackages = with pkgs;
     [
+      conntrack-tools
       gitMinimal
       nix-output-monitor
       screen
