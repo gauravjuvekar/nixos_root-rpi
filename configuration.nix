@@ -113,7 +113,7 @@
       "net.ipv4.conf.all.forwarding" = true;
       "net.ipv6.conf.all.forwarding" = true;
     };
-  networking.nftables.enable = true;
+
   networking.firewall =
     {
       enable = true;
@@ -123,13 +123,37 @@
           80
           443
           8000
+          5540 # matter
         ];
       trustedInterfaces =
         [
           "wlan0"
+          # "enabcm6e4ei0"
         ];
-
+      logRefusedConnections = false;
+      rejectPackets = true;
     };
+
+  networking.nftables.enable = true;
+  networking.nftables.ruleset = ''
+      define IP4_NOFWD = {10.0.0.0/8, 192.168.0.0/16, 172.16.0.0/12}
+      define IP6_NOFWD = {fd00::/8}
+      define IFACE_IOT = "wlan0"
+      define IFACE_WAN = "enabcm6e4ei0"
+
+      table inet ap {
+        chain routethrough {
+          type nat hook postrouting priority filter; policy accept;
+          oifname $IFACE_WAN masquerade
+        }
+        chain forward {
+          type filter hook forward priority filter; policy drop;
+          iifname $IFACE_WAN oifname $IFACE_IOT ct state established,related accept
+          iifname $IFACE_IOT oifname $IFACE_WAN ip  daddr != $IP4_NOFWD accept
+          iifname $IFACE_IOT oifname $IFACE_WAN ip6 daddr != $IP6_NOFWD accept
+        }
+      }
+    '';
 
   age.secrets."hostapd_wpa_password".file = ./secrets/hostapd_wpa_password.age;
   services.hostapd.enable = true;
